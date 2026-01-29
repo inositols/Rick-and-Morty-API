@@ -13,7 +13,6 @@ class CharacterRemoteDataSourceImpl implements CharacterRemoteDataSource {
 
   @override
   Future<List<CharacterModel>> getAllCharacters(int page) async {
-    // [cite: 3, 5] Fetching from Rick and Morty API
     final response = await dio.get(
       AppConstants.baseUrl + AppConstants.characterEndpoint,
       queryParameters: {'page': page},

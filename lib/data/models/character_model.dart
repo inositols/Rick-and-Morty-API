@@ -1,21 +1,27 @@
+// ignore_for_file: overridden_fields
+
 import 'package:hive/hive.dart';
 import '../../domain/entities/character.dart';
-
-// This line is required for build_runner to generate the adapter
 part 'character_model.g.dart';
 
 @HiveType(typeId: 0)
 class CharacterModel extends Character {
+  @override
   @HiveField(0)
   final int id;
+  @override
   @HiveField(1)
   final String name;
+  @override
   @HiveField(2)
   final String status;
+  @override
   @HiveField(3)
   final String species;
+  @override
   @HiveField(4)
   final String imageUrl;
+  @override
   @HiveField(5)
   final String locationName;
 
@@ -42,7 +48,6 @@ class CharacterModel extends Character {
       status: json['status'],
       species: json['species'],
       imageUrl: json['image'],
-      // Safe extraction of nested location name
       locationName: json['location']?['name'] ?? 'Unknown',
     );
   }

@@ -105,8 +105,8 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ## Screenshots
 (Replace the placeholders with actual images)
 - assets/screenshots/home.png
-- assets/screenshots/details.png
-- assets/screenshots/favorites.png
+- assets/screenshots/favorite.png
+- assets/screenshots/theme.png
 
 ---
 
