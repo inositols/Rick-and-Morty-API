@@ -51,7 +51,7 @@ A Flutter application for the Effective Mobile test assignment. The app fetches 
 
 1. Clone the repository
 ```bash
-git clone [YOUR_REPO_LINK_HERE]
+git clone [https://github.com/inositols/Rick-and-Morty-API.git]
 cd rick_and_morty_app
 ```
 
