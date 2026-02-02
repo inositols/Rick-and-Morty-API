@@ -6,6 +6,14 @@ This is a production-ready Flutter app demonstrating **Clean Architecture**, adv
 
 ---
 
+## 📱 App Preview
+
+| Character List | Search & Filters | Character Details | Favorites Screen |
+|:---:|:---:|:---:|:---:|
+| ![Home](screenshots/home.png) | ![Filters](screenshots/filters.png) | ![Details](screenshots/details.png) | ![Favorites](screenshots/favorites.png) |
+
+---
+
 ## 🌟 New Enterprise Features
 
 ### 🔍 Advanced Search & Filtering
