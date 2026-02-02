@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/character.dart';
 import '../bloc/favorite_bloc.dart';
+import '../screens/character_detail_screen.dart';
 
 class CharacterCard extends StatelessWidget {
   final Character character;
@@ -15,33 +16,43 @@ class CharacterCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Row(
-        children: [
-          // 1. Image
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CharacterDetailScreen(character: character),
             ),
-            child: CachedNetworkImage(
-              imageUrl: character.imageUrl,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-              placeholder: (context, url) =>
-                  const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+          );
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+              ),
+              child: Hero(
+                tag: 'character-image-${character.id}',
+                child: CachedNetworkImage(
+                  imageUrl: character.imageUrl,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                  placeholder:
+                      (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
             ),
-          ),
-
-          // 2. Info
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Name
                   Text(
                     character.name,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -51,8 +62,6 @@ class CharacterCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-
-                  // Status Row
                   Row(
                     children: [
                       Container(
@@ -76,8 +85,6 @@ class CharacterCard extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  // NEW: Location Row
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -103,16 +110,13 @@ class CharacterCard extends StatelessWidget {
               ),
             ),
           ),
-
-          // 3. Elastic Favorite Button
           BlocBuilder<FavoriteBloc, FavoriteState>(
             builder: (context, state) {
               bool isFavorite = false;
               if (state is FavoriteLoaded) {
                 isFavorite = state.isFavorite(character.id);
               }
-
-              return TweenAnimationBuilder<double>(
+  return TweenAnimationBuilder<double>(
                 tween: Tween(begin: 1.0, end: isFavorite ? 1.2 : 1.0),
                 duration: const Duration(milliseconds: 400),
                 curve: Curves.elasticOut,
@@ -138,6 +142,7 @@ class CharacterCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+ }
 }

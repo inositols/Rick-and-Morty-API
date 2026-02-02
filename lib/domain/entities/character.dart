@@ -7,6 +7,10 @@ class Character extends Equatable {
   final String species;
   final String imageUrl;
   final String locationName;
+  final String gender;
+  final String type;
+  final String originName;
+  final List<String> episodes;
 
   const Character({
     required this.id,
@@ -15,6 +19,10 @@ class Character extends Equatable {
     required this.species,
     required this.imageUrl,
     required this.locationName,
+    required this.gender,
+    required this.type,
+    required this.originName,
+    required this.episodes,
   });
 
   @override
@@ -25,5 +33,9 @@ class Character extends Equatable {
     species,
     imageUrl,
     locationName,
+    gender,
+    type,
+    originName,
+    episodes,
   ];
 }

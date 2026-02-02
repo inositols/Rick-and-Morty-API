@@ -1,32 +1,27 @@
-# 🥒 Rick and Morty Character App
+# 🥒 Rick and Morty Character App (Enhanced Edition)
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter) ![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart) ![Architecture](https://img.shields.io/badge/Architecture-Clean-green) ![State](https://img.shields.io/badge/State-BLoC-blue) ![License](https://img.shields.io/badge/License-MIT-purple)
 
-A production-ready Flutter app built as a test assignment for **Effective Mobile**. Demonstrates Clean Architecture, Offline-First data handling, and advanced state management (BLoC). Fetches characters from the [Rick and Morty API](https://rickandmortyapi.com/) and includes theming, animations, caching, and offline support.
+This is a production-ready Flutter app demonstrating **Clean Architecture**, advanced **BLoC** patterns, and a modern UI/UX. Originally built as a test assignment, it has been enhanced with enterprise-level features like connectivity monitoring, debounced search, and skeleton loading.
 
 ---
 
-## 📱 App Preview
+## 🌟 New Enterprise Features
 
-| Character List & Pagination | Favorites & Animations | Dark/Light Mode |
-|:---:|:---:|:---:|
-| ![Home](screenshots/home.png) | ![Favorites](screenshots/favorite.png) | ![Theme](screenshots/white.png) |
+### 🔍 Advanced Search & Filtering
+- **Real-time Search**: Instant search with **500ms debouncing** to optimize API calls.
+- **Multi-Criteria Filtering**: Filter by Status (Alive, Dead, Unknown) and Species.
+- **Optimized BLoC Logic**: Utilizes `bloc_concurrency` with `restartable()` for search/filters and `droppable()` for smooth pagination.
 
-> Features: custom "Elastic Heart" animations, swipe-to-dismiss, infinite scrolling, and local favorites.
+### 🖼️ Rich UI & UX
+- **Hero Animations**: Seamless shared-element transitions from character cards to the detail view.
+- **Skeleton Loaders**: Modern loading experience using `skeletonizer` instead of static spinners.
+- **Sliver Detail Screen**: A beautiful, collapsible header with character background and full episode lists.
+- **Pull-to-Refresh**: Intuitive data reloading on the main character list.
 
----
-
-## 🚀 Key Features
-
-- **Clean Architecture** — Separation of Domain, Data, and Presentation layers for testability and scalability.
-- **Offline-First** — Uses Hive for caching so the app works without an internet connection.
-- **State Management** — `flutter_bloc` for predictable state transitions and clear event handling.
-- **Infinite Pagination** — Lazy loading of pages for smooth scrolling and performance.
-- **Favorites System** — Local persistence via Hive with sorting and swipe-to-remove functionality.
-- **UI/UX**:
-    - Dark/Light theme switch via `ThemeCubit`.
-    - Custom animations using `TweenAnimationBuilder` and `Dismissible`.
-    - User-friendly error handling with SnackBars.
+### 🔌 Connectivity Monitoring
+- **Real-time Banner**: Integrated `connectivity_plus` to show a non-intrusive offline status banner.
+- **Offline-First Resilience**: Gracefully falls back to Hive-cached data when no internet is available.
 
 ---
 
@@ -34,99 +29,64 @@ A production-ready Flutter app built as a test assignment for **Effective Mobile
 
 | Category | Technology | Purpose |
 | :--- | :--- | :--- |
-| Framework | Flutter 3.x | Cross-platform UI toolkit |
-| Language | Dart 3.x | Null-safe, strongly typed language |
-| State Management | `flutter_bloc` | Business logic separation |
-| Networking | `dio` | HTTP client with interceptors |
-| Local DB | `hive` | Lightweight key-value cache |
-| DI | `get_it` | Service locator for dependency injection |
-| Codegen | `build_runner` | Generates Hive adapters and other boilerplate |
-| Images | `cached_network_image` | Efficient remote image caching |
+| **Framework** | Flutter 3.x | UI Development |
+| **Logic** | `flutter_bloc` | State Management & Concurrency |
+| **Concurrency** | `bloc_concurrency` | Event transformation (Restartable/Droppable) |
+| **Networking** | `dio` | API interaction |
+| **Efficiency** | `stream_transform` | Search debouncing |
+| **Persistence** | `hive` | Local object database |
+| **UX** | `skeletonizer` | Content-aware loading states |
+| **Testing** | `bloc_test`, `mocktail` | Unit testing |
 
 ---
 
 ## 📂 Project Structure
 
-Feature-first Clean Architecture layout:
-
 ```text
 lib/
-├── core/                     # Utilities: constants, exceptions
-├── data/                     # Implementations (API, local DB)
-│   ├── datasources/          # Remote (API) & local (Hive) sources
-│   ├── models/               # DTOs with JSON serialization
-│   └── repositories/         # Data layer implementations
-├── domain/                   # Business rules (pure Dart)
-│   ├── entities/             # Core business objects
-│   └── repositories/         # Abstract repository contracts
-├── presentation/             # UI & state
-│   ├── bloc/                 # BLoCs and Cubits
-│   ├── screens/              # Full-page widgets
-│   └── widgets/              # Reusable components
-├── main.dart                 # App entry & DI setup
-└── injection_container.dart  # GetIt dependency registration
+├── core/                     # Constants, design tokens, and global utilities
+├── data/                     # Data source implementations (Dio + Hive)
+├── domain/                   # Pure business logic (Entities & Repository contracts)
+├── presentation/             # UI Components & BLoC state logic
+│   ├── bloc/                 # Feature-specific Blocs and Cubits
+│   ├── screens/              # Top-level page widgets
+│   └── widgets/              # Reusable UI components
+└── injection_container.dart  # Dependency injection setup
 ```
 
 ---
 
 ## ⚡ Getting Started
 
-### Prerequisites
-- Flutter (stable 3.x) — https://flutter.dev
-- A connected device or emulator
+1. **Install Dependencies**:
+   ```bash
+   flutter pub get
+   ```
 
-Quick checks:
-```bash
-flutter --version
-flutter doctor
-```
+2. **Generate Models**:
+   ```bash
+   flutter pub run build_runner build --delete-conflicting-outputs
+   ```
 
-### Install & run
-1. Clone and open the project:
-```bash
-git clone https://github.com/inositols/Rick-and-Morty-API.git
-cd rick_and_morty_app
-```
-
-2. Install dependencies:
-```bash
-flutter pub get
-```
-
-3. Generate code (Hive adapters, etc.):
-```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-# or for continuous generation
-flutter pub run build_runner watch --delete-conflicting-outputs
-```
-
-4. Run the app:
-```bash
-flutter run
-# or target a specific device
-flutter run -d emulator-5554
-```
-
-### Platform notes
-- Android: Ensure Android SDK & emulator (Android Studio) are configured.
-- iOS: Build on macOS with Xcode; open `ios/Runner.xcworkspace` when needed.
-
-### Useful commands
-```bash
-flutter analyze
-dart format .
-flutter test
-```
-
-### Troubleshooting
-- If codegen fails:
-```bash
-flutter clean
-flutter pub get
-flutter pub run build_runner build --delete-conflicting-outputs
-```
-- Hive adapter issues: ensure model classes include proper annotations and imports, then re-run build_runner.
+3. **Run the App**:
+   ```bash
+   flutter run
+   ```
 
 ---
 
-If you need a condensed README, a contributor guide, or CI examples, say which section to expand.
+## 🧪 Testing
+
+The app includes unit tests for core business logic. Run them using:
+```bash
+flutter test
+```
+
+---
+
+## ✨ Design Philosophy
+The app aims for a **premium** feel with:
+- Harmonious color palettes.
+- Fluid micro-animations.
+- Content-first information hierarchy.
+- Robust error handling and connectivity awareness.

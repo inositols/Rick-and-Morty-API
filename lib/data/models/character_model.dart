@@ -24,6 +24,18 @@ class CharacterModel extends Character {
   @override
   @HiveField(5)
   final String locationName;
+  @override
+  @HiveField(6)
+  final String gender;
+  @override
+  @HiveField(7)
+  final String type;
+  @override
+  @HiveField(8)
+  final String originName;
+  @override
+  @HiveField(9)
+  final List<String> episodes;
 
   const CharacterModel({
     required this.id,
@@ -32,6 +44,10 @@ class CharacterModel extends Character {
     required this.species,
     required this.imageUrl,
     required this.locationName,
+    required this.gender,
+    required this.type,
+    required this.originName,
+    required this.episodes,
   }) : super(
          id: id,
          name: name,
@@ -39,6 +55,10 @@ class CharacterModel extends Character {
          species: species,
          imageUrl: imageUrl,
          locationName: locationName,
+         gender: gender,
+         type: type,
+         originName: originName,
+         episodes: episodes,
        );
 
   factory CharacterModel.fromJson(Map<String, dynamic> json) {
@@ -49,6 +69,10 @@ class CharacterModel extends Character {
       species: json['species'],
       imageUrl: json['image'],
       locationName: json['location']?['name'] ?? 'Unknown',
+      gender: json['gender'] ?? 'Unknown',
+      type: json['type'] ?? '',
+      originName: json['origin']?['name'] ?? 'Unknown',
+      episodes: List<String>.from(json['episode'] ?? []),
     );
   }
 }

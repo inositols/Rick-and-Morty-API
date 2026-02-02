@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/presentation/bloc/theme_cubit.dart';
+import 'package:rick_and_morty_app/presentation/bloc/connectivity_bloc.dart';
 import 'character_list_screen.dart';
 import 'favorite_screen.dart';
 
@@ -33,7 +34,28 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: _pages[_currentIndex],
+      body: Column(
+        children: [
+          BlocBuilder<ConnectivityBloc, ConnectivityState>(
+            builder: (context, state) {
+              if (state is ConnectivityDisconnected) {
+                return Container(
+                  width: double.infinity,
+                  color: Colors.redAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: const Text(
+                    "No Internet Connection",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+          Expanded(child: _pages[_currentIndex]),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {

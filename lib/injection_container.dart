@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -7,6 +8,7 @@ import 'data/datasources/character_remote_data_source.dart';
 import 'data/repositories/character_repository_impl.dart';
 import 'domain/repositories/character_repository.dart';
 import 'presentation/bloc/character_bloc.dart';
+import 'presentation/bloc/connectivity_bloc.dart';
 import 'presentation/bloc/favorite_bloc.dart';
 import 'presentation/bloc/theme_cubit.dart';
 
@@ -37,4 +39,6 @@ Future<void> init() async {
   );
   sl.registerFactory(() => FavoriteBloc(repository: sl()));
   sl.registerFactory(() => ThemeCubit());
+  sl.registerLazySingleton(() => Connectivity());
+  sl.registerFactory(() => ConnectivityBloc(sl()));
 }

@@ -17,12 +17,28 @@ class CharacterRepositoryImpl implements CharacterRepository {
   });
 
   @override
-  Future<List<Character>> getAllCharacters(int page) async {
+  Future<List<Character>> getAllCharacters(
+    int page, {
+    String? name,
+    String? status,
+    String? species,
+  }) async {
     try {
-      final remoteCharacters = await remoteDataSource.getAllCharacters(page);
-      await localDataSource.cacheCharacters(remoteCharacters, page);
+      final remoteCharacters = await remoteDataSource.getAllCharacters(
+        page,
+        name: name,
+        status: status,
+        species: species,
+      );
+      if (name == null && status == null && species == null) {
+        await localDataSource.cacheCharacters(remoteCharacters, page);
+      }
       return remoteCharacters;
     } catch (e) {
+      if (name != null || status != null || species != null) {
+        rethrow;
+      }
+
       try {
         final localCharacters = await localDataSource.getLastCharacters(page);
         if (localCharacters.isEmpty) {
@@ -49,6 +65,10 @@ class CharacterRepositoryImpl implements CharacterRepository {
       species: character.species,
       imageUrl: character.imageUrl,
       locationName: character.locationName,
+      gender: character.gender,
+      type: character.type,
+      originName: character.originName,
+      episodes: character.episodes,
     );
     await favoritesBox.put(character.id, model);
   }
